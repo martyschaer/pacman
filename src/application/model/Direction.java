@@ -1,6 +1,6 @@
 package application.model;
 
-import java.awt.Point;
+import application.model.elements.Point;
 
 public enum Direction {
   UP(new Point(0,-1), 90),

@@ -1,10 +1,9 @@
 package application;
 
-import java.awt.Point;
-
 import application.model.Direction;
-import application.model.Pacman;
+import application.model.elements.Pacman;
 import application.model.elements.Maze;
+import application.model.elements.Point;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -12,17 +11,20 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import static application.model.Utils.mapKeyPressToDirection;
 
 public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception{
     Maze maze = new Maze();
-    int mazeWidth = maze.getWidth();
-    int mazeHeight = maze.getHeight();
+    int mazeWidth = maze.getWidthInPixels();
+    int mazeHeight = maze.getHeightInPixels();
     final Canvas canvas = new Canvas(mazeWidth, mazeHeight);
     Parent root = new BorderPane(canvas);
     primaryStage.setTitle("PacMan");
@@ -30,9 +32,11 @@ public class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 
-    Pacman pacman = new Pacman(new Point(1, 1), Direction.RIGHT);
+    Pacman pacman = new Pacman(new Point(13, 13), Direction.RIGHT, maze);
 
     GraphicsContext ctx = canvas.getGraphicsContext2D();
+
+    scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> handleInput(keyEvent.getCode(), pacman));
 
     AnimationTimer timer = new AnimationTimer() {
       long lastUpdate = 0;
@@ -41,6 +45,7 @@ public class Main extends Application {
           resetCanvas(ctx, canvas.getWidth(), canvas.getHeight());
           maze.draw(ctx);
           pacman.draw(ctx);
+          pacman.move();
           lastUpdate = now;
         }
       }
@@ -53,8 +58,8 @@ public class Main extends Application {
     ctx.clearRect(0, 0, x, y);
   }
 
-  private void handleInput(KeyCode key){
-
+  private void handleInput(KeyCode key, Pacman pacman){
+    pacman.setDirection(mapKeyPressToDirection(key));
   }
 
   public static void main(String[] args) {

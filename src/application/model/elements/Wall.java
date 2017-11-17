@@ -2,8 +2,6 @@ package application.model.elements;
 
 import static application.model.Utils.UNIT;
 
-import java.awt.Point;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -17,8 +15,8 @@ public class Wall extends GameElement{
 
   @Override void draw(GraphicsContext ctx) {
     ctx.setFill(color);
-    ctx.fillRect(this.getPosition().x * UNIT,
-     this.getPosition().y * UNIT,
+    ctx.fillRect(this.getPosition().x() * UNIT,
+     this.getPosition().y() * UNIT,
      UNIT,
      UNIT);
   }

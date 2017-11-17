@@ -1,6 +1,5 @@
 package application.model.elements;
 
-import java.awt.Point;
 import java.util.NoSuchElementException;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -26,9 +25,10 @@ public abstract class GameElement {
 
     public GameElement build(){
       switch (type){
-      case FLOOR:   return new Floor(position);
-      case WALL:    return new Wall(position);
-      case PAC_DOT: return new PacDot(position);
+        case FLOOR:           return new Floor(position);
+        case WALL:            return new Wall(position);
+        case PAC_DOT:         return new PacDot(position);
+        case POWER_PELLET:  return new PowerPellet(position);
         default: throw new NoSuchElementException("no such game element");
       }
     }

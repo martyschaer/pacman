@@ -1,20 +1,21 @@
 package application.model.elements;
 
-import static application.model.Utils.UNIT;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class PacDot extends GameElement{
+import static application.model.Utils.UNIT;
+
+public class PowerPellet extends GameElement{
   private Type type = Type.PAC_DOT;
   private Color color = new Color(1, 0.72, 0.59, 1);
-  private static final int RADIUS = UNIT/8;
+  private static final int RADIUS = UNIT/4;
 
-  public PacDot(Point position) {
+  public PowerPellet(Point position) {
     super(position);
   }
 
-  @Override void draw(GraphicsContext ctx) {
+  @Override
+  void draw(GraphicsContext ctx) {
     ctx.setFill(Color.BLACK);
     ctx.fillRect(this.getPosition().x() * UNIT,
      this.getPosition().y() * UNIT,
@@ -26,7 +27,8 @@ public class PacDot extends GameElement{
       RADIUS *2, RADIUS *2);
   }
 
-  @Override Type getType() {
+  @Override
+  Type getType() {
     return null;
   }
 }
