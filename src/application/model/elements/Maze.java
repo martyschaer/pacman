@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Maze {
@@ -76,7 +75,7 @@ public class Maze {
       for (GameElement el : row){
         double cordX = el.getPosition().x() * UNIT;
         double cordY = el.getPosition().y() * UNIT;
-        if(rect.intersects(cordX,cordY, UNIT, UNIT)){
+        if(el instanceof Wall && rect.intersects(cordX,cordY, UNIT, UNIT)){
           return true;
         }
       }

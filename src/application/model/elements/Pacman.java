@@ -23,6 +23,7 @@ public class Pacman {
     this.position = initialPos;
     this.direction = initialDir;
     this.maze = maze;
+    this.spriteCoordinates = new Point(position.x() * UNIT, position.y() * UNIT);
   }
 
   /**
@@ -51,7 +52,7 @@ public class Pacman {
   }
 
   private boolean canDoMove(double x, double y){
-    return maze.intersectsWall(new Rectangle(x, y, extent, extent));
+    return !maze.intersectsWall(new Rectangle(x, y, extent, extent));
   }
 
   /**
@@ -62,13 +63,13 @@ public class Pacman {
     double y = this.spriteCoordinates.y() + extent/2;
 
     if(x < 0){
-      this.position.setX(maze.getWidthInPixels());
+      this.position.setX(maze.getWidth() - 1);
     }else if (x > maze.getWidthInPixels()){
       this.position.setX(0);
     }
 
     if(y < 0){
-      this.position.setY(maze.getHeightInPixels());
+      this.position.setY(maze.getHeight() - 1);
     }else if(y > maze.getHeightInPixels()){
       this.position.setY(0);
     }
@@ -79,8 +80,8 @@ public class Pacman {
 
     nomnom();
     ctx.setFill(this.COLOR);
-    //ctx.fillArc(this.spriteCoordinates.x(), this.spriteCoordinates.y(), extent, extent, calculateMouthStartAngle(), 360-this.mouthAngle, ArcType.ROUND);
-    ctx.fillRect(this.spriteCoordinates.x(), this.spriteCoordinates.y(), extent, extent);
+    ctx.fillArc(this.spriteCoordinates.x(), this.spriteCoordinates.y(), extent, extent, calculateMouthStartAngle(), 360-this.mouthAngle, ArcType.ROUND);
+    //ctx.fillRect(this.spriteCoordinates.x(), this.spriteCoordinates.y(), extent, extent);
   }
 
   private void nomnom(){

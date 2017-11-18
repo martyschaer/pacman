@@ -1,8 +1,10 @@
 package application;
 
+import static application.model.Utils.mapKeyPressToDirection;
+
 import application.model.Direction;
-import application.model.elements.Pacman;
 import application.model.elements.Maze;
+import application.model.elements.Pacman;
 import application.model.elements.Point;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -15,8 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import static application.model.Utils.mapKeyPressToDirection;
 
 public class Main extends Application {
 
@@ -44,8 +44,8 @@ public class Main extends Application {
         if(now - lastUpdate >= 16_000_000){
           resetCanvas(ctx, canvas.getWidth(), canvas.getHeight());
           maze.draw(ctx);
-          pacman.draw(ctx);
           pacman.move();
+          pacman.draw(ctx);
           lastUpdate = now;
         }
       }
