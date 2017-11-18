@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Maze {
@@ -71,16 +72,16 @@ public class Maze {
   }
 
   public boolean intersectsWall(Rectangle rect){
-    boolean found = false;
     for (List<GameElement> row : maze){
       for (GameElement el : row){
-        found |= rect.intersects(el.getPosition().x(),
-          el.getPosition().y(),
-          UNIT,
-          UNIT);
+        double cordX = el.getPosition().x() * UNIT;
+        double cordY = el.getPosition().y() * UNIT;
+        if(rect.intersects(cordX,cordY, UNIT, UNIT)){
+          return true;
+        }
       }
     }
-    return found;
+    return false;
   }
 
   public int getWidthInPixels() {
