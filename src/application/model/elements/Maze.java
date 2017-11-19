@@ -70,15 +70,38 @@ public class Maze {
     }
   }
 
-  public boolean intersectsWall(Rectangle rect){
+  public boolean intersectsElement(Rectangle rect, Class clazz){
     for (List<GameElement> row : maze){
       for (GameElement el : row){
-        double cordX = el.getPosition().x() * UNIT;
-        double cordY = el.getPosition().y() * UNIT;
-        if(el instanceof Wall && rect.intersects(cordX,cordY, UNIT, UNIT)){
+        double cordX = el.getPosition().x();
+        double cordY = el.getPosition().y();
+        if(clazz.isInstance(el) && rect.intersects(cordX, cordY, 1, 1)){
+          updateElement(el);
           return true;
         }
       }
+    }
+    return false;
+  }
+
+  private void updateElement(GameElement genericElement){
+    if(genericElement instanceof PacDot){
+      PacDot element = (PacDot)genericElement;
+      element.eat();
+    }else if(genericElement instanceof PowerPellet){
+      PowerPellet element = (PowerPellet)genericElement;
+      element.eat();
+    }
+  }
+
+  public boolean elementIsEaten(double x, double y){
+    GameElement generic = maze.get((int)y).get((int)x);
+    if(generic instanceof PacDot){
+      PacDot dot = (PacDot)generic;
+      return dot.isEaten();
+    }else if(generic instanceof PowerPellet){
+      PowerPellet pellet = (PowerPellet)generic;
+      return pellet.isEaten();
     }
     return false;
   }

@@ -8,6 +8,7 @@ import application.model.elements.Pacman;
 import application.model.elements.Point;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,9 +17,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+  public static int POINTS = 200;
+  public static int POWER_POINTS = 500;
+  public static int GHOST_POINTS = 2500;
+  private int points = 0;
 
   @Override
   public void start(Stage primaryStage) throws Exception{
@@ -44,14 +51,23 @@ public class Main extends Application {
         if(now - lastUpdate >= 16_000_000){
           resetCanvas(ctx, canvas.getWidth(), canvas.getHeight());
           maze.draw(ctx);
-          pacman.move();
+          points += pacman.move();
           pacman.draw(ctx);
+          drawScore(ctx);
           lastUpdate = now;
         }
       }
     };
 
     timer.start();
+  }
+
+  private void drawScore(GraphicsContext ctx){
+    ctx.setFill(Color.WHITE);
+    ctx.setTextAlign(TextAlignment.LEFT);
+    ctx.setTextBaseline(VPos.TOP);
+    ctx.setFont(Font.font("Source Code Pro", 18));
+    ctx.fillText(String.valueOf(points),10,10);
   }
 
   private void resetCanvas(GraphicsContext ctx, double x, double y){

@@ -2,6 +2,7 @@ package application.model.elements;
 
 import static application.model.Utils.UNIT;
 
+import application.Main;
 import application.model.Direction;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -15,7 +16,8 @@ public class Pacman {
   private final Color COLOR = new Color(1, 0.8, 0, 1);
   private double mouthAngle = 0;
   private boolean opening = true;
-  private double extent = (double)UNIT * 0.8;
+  private final double PACMAN_DIAMETER = 0.6;
+  private double extent = (double)UNIT * PACMAN_DIAMETER;
   private Maze maze;
   private Point spriteCoordinates;
 
@@ -35,24 +37,42 @@ public class Pacman {
     }
   }
 
-  public void move(){
+  public int move(){
     double newX = position.x() * UNIT;
     double newY = position.y() * UNIT;
     newX += direction.getValue().x() * STEP_SIZE;
     newY += direction.getValue().y() * STEP_SIZE;
     newX /= UNIT;
     newY /= UNIT;
-    if(canDoMove(newX, newY)){
-      System.out.println("Moving");
+    if(canDoMove(newX, newY)) {
       this.position.setLocation(newX, newY);
       checkOverflow();
-    }else{
-      System.out.println("Not Moving");
+      return eatThings(newX, newY);
     }
+    return 0;
   }
 
   private boolean canDoMove(double x, double y){
-    return !maze.intersectsWall(new Rectangle(x, y, extent, extent));
+    return !maze.intersectsElement(calcPacmanSquare(x,y), Wall.class);
+  }
+
+  private int eatThings(double x, double y){
+    if(maze.elementIsEaten(x,y)){
+      return 0;
+    }
+    boolean pacDot = maze.intersectsElement(calcPacmanSquare(x,y), PacDot.class);
+    boolean powerPellet = maze.intersectsElement(calcPacmanSquare(x,y), PowerPellet.class);
+    if(pacDot){
+      return Main.POINTS;
+    }
+    if(powerPellet){
+      return Main.POWER_POINTS;
+    }
+    return 0;
+  }
+
+  private Rectangle calcPacmanSquare(double x, double y){
+    return new Rectangle(x+0.5,y+0.5,PACMAN_DIAMETER,PACMAN_DIAMETER);
   }
 
   /**

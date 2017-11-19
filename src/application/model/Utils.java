@@ -3,7 +3,7 @@ package application.model;
 import javafx.scene.input.KeyCode;
 
 public class Utils {
-  public static int UNIT = 20;
+  public static int UNIT = 30;
 
   public static Direction mapKeyPressToDirection(KeyCode keyCode){
     switch (keyCode){
