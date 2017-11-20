@@ -95,11 +95,12 @@ public class Maze {
   }
 
   public boolean elementIsEaten(double x, double y){
+    x++;y++;
     GameElement generic = maze.get((int)y).get((int)x);
-    if(generic instanceof PacDot){
+    if(generic.getType() == Type.PAC_DOT){
       PacDot dot = (PacDot)generic;
       return dot.isEaten();
-    }else if(generic instanceof PowerPellet){
+    }else if(generic.getType() == Type.POWER_PELLET){
       PowerPellet pellet = (PowerPellet)generic;
       return pellet.isEaten();
     }
